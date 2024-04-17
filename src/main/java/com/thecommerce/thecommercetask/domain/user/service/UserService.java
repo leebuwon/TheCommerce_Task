@@ -1,9 +1,15 @@
 package com.thecommerce.thecommercetask.domain.user.service;
 
 import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserDto;
+import com.thecommerce.thecommercetask.domain.user.dto.response.UsersDto;
+import com.thecommerce.thecommercetask.domain.user.entity.User;
 import com.thecommerce.thecommercetask.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +25,15 @@ public class UserService {
     public void join(JoinUserDto dto) {
         checkDuplicate(dto);
         userRepository.save(dto.toEntity(dto));
+    }
+
+    public UsersDto list(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size,
+                Sort.by(Sort.Order.desc("createdAt"),
+                        Sort.Order.desc("fullName")));
+        Page<User> users = userRepository.findAll(pageable);
+
+        return UsersDto.of(users);
     }
 
     private void checkDuplicate(JoinUserDto dto) {
