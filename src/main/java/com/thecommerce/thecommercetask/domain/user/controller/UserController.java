@@ -1,6 +1,7 @@
 package com.thecommerce.thecommercetask.domain.user.controller;
 
 import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserDto;
+import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserDto;
 import com.thecommerce.thecommercetask.domain.user.dto.response.UsersDto;
 import com.thecommerce.thecommercetask.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,12 @@ public class UserController {
 
         UsersDto dto = userService.list(page, size);
         return ResponseEntity.status(HttpStatus.OK).body(dto);
+    }
+
+    @PatchMapping("/{username}")
+    public ResponseEntity<Void> update(@PathVariable("username") String username,
+                                       @Valid @RequestBody UpdateUserDto dto){
+        userService.update(username, dto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
