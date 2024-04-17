@@ -46,4 +46,11 @@ public class User {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    public void updateUser(String password, String nickname, String phoneNumber, String email) {
+        this.password = password == null ? this.password : password;
+        this.nickname = nickname == null ? this.nickname : nickname;
+        this.phoneNumber = phoneNumber == null ? this.phoneNumber : phoneNumber;
+        this.email = email == null ? this.email : email;
+    }
 }

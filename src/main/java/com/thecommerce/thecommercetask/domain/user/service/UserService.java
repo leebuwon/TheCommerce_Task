@@ -1,6 +1,7 @@
 package com.thecommerce.thecommercetask.domain.user.service;
 
 import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserDto;
+import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserDto;
 import com.thecommerce.thecommercetask.domain.user.dto.response.UsersDto;
 import com.thecommerce.thecommercetask.domain.user.entity.User;
 import com.thecommerce.thecommercetask.domain.user.repository.UserRepository;
@@ -34,6 +35,17 @@ public class UserService {
         Page<User> users = userRepository.findAll(pageable);
 
         return UsersDto.of(users);
+    }
+
+    @Transactional
+    public void update(String username, UpdateUserDto dto) {
+        User user = findByUsername(username);
+        user.updateUser(dto.getPassword(), dto.getNickname(), dto.getPhoneNumber(), dto.getEmail());
+    }
+
+    private User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원Id 입니다."));
     }
 
     private void checkDuplicate(JoinUserDto dto) {
