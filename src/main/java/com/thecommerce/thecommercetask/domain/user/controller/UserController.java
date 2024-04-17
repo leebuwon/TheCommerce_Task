@@ -22,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/join")
-    public ResponseEntity<Void> join(@RequestBody JoinUserDto dto) {
+    public ResponseEntity<Void> join(@Valid @RequestBody JoinUserDto dto) {
         userService.join(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

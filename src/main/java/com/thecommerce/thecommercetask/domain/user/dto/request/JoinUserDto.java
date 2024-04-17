@@ -18,11 +18,28 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class JoinUserDto {
 
+    @NotNull
+    @Size(min = 3, max = 20)
     private String username;
+
+    @NotNull
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Size(min = 8, max = 30)
     private String password;
+
+    @NotNull
+    @Size(min = 2, max = 30)
     private String nickname;
+
+    @Size(min = 2, max = 10)
+    @Pattern(regexp = "^[가-힣a-zA-Z]+$")
     private String fullName;
+
+    @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$")
     private String phoneNumber;
+
+    @NotNull
+    @Email
     private String email;
 
     // dto -> entity
