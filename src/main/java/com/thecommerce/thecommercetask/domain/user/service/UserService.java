@@ -4,6 +4,8 @@ import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserDto;
 import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserDto;
 import com.thecommerce.thecommercetask.domain.user.dto.response.UsersDto;
 import com.thecommerce.thecommercetask.domain.user.entity.User;
+import com.thecommerce.thecommercetask.domain.user.exception.DuplicateEmailException;
+import com.thecommerce.thecommercetask.domain.user.exception.DuplicatePhoneNumberException;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicateUsernameException;
 import com.thecommerce.thecommercetask.domain.user.repository.UserRepository;
 import com.thecommerce.thecommercetask.global.exception.error.GlobalErrorCode;
@@ -58,11 +60,11 @@ public class UserService {
         }
 
         if (userRepository.existsByEmail(dto.getEmail())){
-            throw new IllegalArgumentException("현재 존재하는 이메일입니다.");
+            throw new DuplicateEmailException(DUPLICATE_EMAIL_ERROR);
         }
 
         if (userRepository.existsByPhoneNumber(dto.getPhoneNumber())){
-            throw new IllegalArgumentException("현재 존재하는 핸드폰 번호입니다.");
+            throw new DuplicatePhoneNumberException(DUPLICATE_PHONE_NUMBER_ERROR);
         }
     }
 }
