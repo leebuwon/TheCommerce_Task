@@ -2,6 +2,7 @@ package com.thecommerce.thecommercetask.domain.user.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.thecommerce.thecommercetask.domain.user.entity.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,10 +32,12 @@ public class JoinUserDto {
     @Size(min = 2, max = 30)
     private String nickname;
 
+    @NotNull
     @Size(min = 2, max = 10)
     @Pattern(regexp = "^[가-힣a-zA-Z]+$")
     private String fullName;
 
+    @NotNull
     @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$")
     private String phoneNumber;
 
