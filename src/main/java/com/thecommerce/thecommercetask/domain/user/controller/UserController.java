@@ -1,5 +1,6 @@
 package com.thecommerce.thecommercetask.domain.user.controller;
 
+import com.thecommerce.thecommercetask.domain.user.controller.api.ApiUserController;
 import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserDto;
 import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserDto;
 import com.thecommerce.thecommercetask.domain.user.dto.response.UsersDto;
@@ -16,7 +17,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
-public class UserController {
+public class UserController implements ApiUserController {
 
     private final UserService userService;
 
