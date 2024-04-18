@@ -7,6 +7,7 @@ import com.thecommerce.thecommercetask.domain.user.entity.User;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicateEmailException;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicatePhoneNumberException;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicateUsernameException;
+import com.thecommerce.thecommercetask.domain.user.exception.NotFoundUsernameException;
 import com.thecommerce.thecommercetask.domain.user.repository.UserRepository;
 import com.thecommerce.thecommercetask.global.exception.error.GlobalErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +52,7 @@ public class UserService {
 
     private User findByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원Id 입니다."));
+                .orElseThrow(() -> new NotFoundUsernameException(NOT_FOUND_USERNAME_ERROR));
     }
 
     private void checkDuplicate(JoinUserDto dto) {
