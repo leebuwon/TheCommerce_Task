@@ -9,7 +9,6 @@ import com.thecommerce.thecommercetask.domain.user.exception.DuplicatePhoneNumbe
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicateUsernameException;
 import com.thecommerce.thecommercetask.domain.user.exception.NotFoundUsernameException;
 import com.thecommerce.thecommercetask.domain.user.repository.UserRepository;
-import com.thecommerce.thecommercetask.global.exception.error.GlobalErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -31,7 +30,8 @@ public class UserService {
 
     @Transactional
     public void join(JoinUserDto dto) {
-        checkDuplicate(dto);
+        checkDuplicateUsername(dto.getUsername());
+        checkDuplicateEmailAndPhoneNumber(dto.getEmail(), dto.getPhoneNumber());
         userRepository.save(dto.toEntity(dto));
     }
 
@@ -46,6 +46,7 @@ public class UserService {
 
     @Transactional
     public void update(String username, UpdateUserDto dto) {
+        checkDuplicateEmailAndPhoneNumber(dto.getEmail(), dto.getPhoneNumber());
         User user = findByUsername(username);
         user.updateUser(dto.getPassword(), dto.getNickname(), dto.getPhoneNumber(), dto.getEmail());
     }
@@ -55,16 +56,18 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundUsernameException(NOT_FOUND_USERNAME_ERROR));
     }
 
-    private void checkDuplicate(JoinUserDto dto) {
-        if (userRepository.existsByUsername(dto.getUsername())){
+    private void checkDuplicateUsername(String username) {
+        if (userRepository.existsByUsername(username)){
             throw new DuplicateUsernameException(DUPLICATE_USERNAME_ERROR);
         }
+    }
 
-        if (userRepository.existsByEmail(dto.getEmail())){
+    private void checkDuplicateEmailAndPhoneNumber(String email, String phoneNumber) {
+        if (userRepository.existsByEmail(email)){
             throw new DuplicateEmailException(DUPLICATE_EMAIL_ERROR);
         }
 
-        if (userRepository.existsByPhoneNumber(dto.getPhoneNumber())){
+        if (userRepository.existsByPhoneNumber(phoneNumber)){
             throw new DuplicatePhoneNumberException(DUPLICATE_PHONE_NUMBER_ERROR);
         }
     }

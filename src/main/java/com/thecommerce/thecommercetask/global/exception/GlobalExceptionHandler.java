@@ -2,10 +2,9 @@ package com.thecommerce.thecommercetask.global.exception;
 
 import com.thecommerce.thecommercetask.global.exception.error.ErrorResponse;
 import com.thecommerce.thecommercetask.global.exception.error.GlobalError;
-import com.thecommerce.thecommercetask.global.exception.error.GlobalErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.http.HttpStatus;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -13,17 +12,16 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
 import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final String CHECK_DUPLICATION = "회원Id, 이메일, 핸드폰 번호 중 하나가 중복상태입니다.";
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> exception(Exception ex) {
         log.error("{}", ex);
@@ -69,5 +67,16 @@ public class GlobalExceptionHandler {
                 .build();
 
         return ResponseEntity.status(BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handleValidationExceptions(DataIntegrityViolationException ex) {
+        ErrorResponse response = ErrorResponse.builder()
+                .code(CONFLICT.value())
+                .codeString(CONFLICT.name())
+                .message(CHECK_DUPLICATION)
+                .build();
+
+        return ResponseEntity.status(CONFLICT).body(response);
     }
 }
