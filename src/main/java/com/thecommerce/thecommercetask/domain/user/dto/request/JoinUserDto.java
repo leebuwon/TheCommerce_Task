@@ -38,7 +38,7 @@ public class JoinUserDto {
     private String fullName;
 
     @NotNull(message = "핸드폰 번호는 필수 값입니다.")
-    @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "전화번호 패턴은 000-1234-1234 입니다.")
+    @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "전화번호 패턴은 000-0000-0000 입니다.")
     private String phoneNumber;
 
     @NotNull(message = "이메일은 필수 값입니다.")
