@@ -19,30 +19,30 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class JoinUserDto {
 
-    @NotNull
-    @Size(min = 3, max = 20)
+    @NotNull(message = "회원Id는 필수 값입니다.")
+    @Size(min = 3, max = 20, message = "회원Id는 최소 2자부터 20자까지 가능합니다.")
     private String username;
 
-    @NotNull
+    @NotNull(message = "비밀번호는 필수 값입니다.")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Size(min = 8, max = 30)
+    @Size(min = 8, max = 30, message = "비밀번호는 최소 8자부터 30자까지 가능합니다.")
     private String password;
 
-    @NotNull
-    @Size(min = 2, max = 30)
+    @NotNull(message = "닉네임은 필수 값입니다.")
+    @Size(min = 2, max = 30, message = "닉네임은 최소 2글자부터 30자까지 가능합니다.")
     private String nickname;
 
-    @NotNull
-    @Size(min = 2, max = 10)
+    @NotNull(message = "이름은 필수 값입니다.")
+    @Size(min = 2, max = 10, message = "이름은 최소 2자부터 10자까지 가능합니다.")
     @Pattern(regexp = "^[가-힣a-zA-Z]+$")
     private String fullName;
 
-    @NotNull
-    @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$")
+    @NotNull(message = "핸드폰 번호는 필수 값입니다.")
+    @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "전화번호 패턴은 000-1234-1234 입니다.")
     private String phoneNumber;
 
-    @NotNull
-    @Email
+    @NotNull(message = "이메일은 필수 값입니다.")
+    @Email(message = "이메일 형식을 지켜주시기 바랍니다.")
     private String email;
 
     // dto -> entity

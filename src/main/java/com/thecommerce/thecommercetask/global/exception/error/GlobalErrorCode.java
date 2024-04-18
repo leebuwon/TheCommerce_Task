@@ -4,8 +4,7 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 import static com.thecommerce.thecommercetask.global.exception.error.GlobalErrorCodeType.*;
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.*;
 
 @Getter
 public enum GlobalErrorCode {
