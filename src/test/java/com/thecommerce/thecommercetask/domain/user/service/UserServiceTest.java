@@ -1,6 +1,7 @@
 package com.thecommerce.thecommercetask.domain.user.service;
 
 import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserDto;
+import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserDto;
 import com.thecommerce.thecommercetask.domain.user.dto.response.UsersDto;
 import com.thecommerce.thecommercetask.domain.user.entity.User;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicateEmailException;
@@ -100,6 +101,26 @@ class UserServiceTest {
         assertThat(dto.getData().get(0).getUsername()).isEqualTo("mockUser");
         assertThat(dto.getData().get(1).getUsername()).isEqualTo("testAccount");
         assertThat(dto.getData().size()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("회원 정보 수정 성공")
+    void updateUser_success() {
+        User user = userService.findByUsername(user1.getUsername());
+
+        UpdateUserDto dto = UpdateUserDto.builder()
+                .nickname("changeNickname")
+                .password("changePassword")
+                .phoneNumber("010-1212-1212")
+                .email("bw1212@naver.com")
+                .build();
+
+        userService.update(user.getUsername(), dto);
+
+        assertThat(user.getNickname()).isEqualTo("changeNickname");
+        assertThat(user.getPassword()).isEqualTo("changePassword");
+        assertThat(user.getPhoneNumber()).isEqualTo("010-1212-1212");
+        assertThat(user.getEmail()).isEqualTo("bw1212@naver.com");
     }
 
     @Test
