@@ -51,7 +51,7 @@ public class UserService {
         user.updateUser(dto.getPassword(), dto.getNickname(), dto.getPhoneNumber(), dto.getEmail());
     }
 
-    private User findByUsername(String username) {
+    public User findByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundUsernameException(NOT_FOUND_USERNAME_ERROR));
     }
