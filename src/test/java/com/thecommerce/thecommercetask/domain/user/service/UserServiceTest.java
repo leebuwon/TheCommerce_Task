@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -42,6 +43,22 @@ class UserServiceTest {
         assertEquals("이부원", user.getFullName());
         assertEquals("010-1234-1234", user.getPhoneNumber());
         assertEquals("test@naver.com", user.getEmail());
+    }
+
+    @Test
+    @DisplayName("회원 가입 실패 - 유효하지 않은 데이터")
+    void joinUser_fail() {
+        JoinUserDto dto = JoinUserDto.builder()
+                .username("te")
+                .password("1234")
+                .nickname("n")
+                .fullName("123")
+                .phoneNumber("123-456-7890")
+                .email("test@@@naver.com")
+                .build();
+
+        assertThatThrownBy(() -> userService.join(dto))
+                .isInstanceOf(ConstraintViolationException.class);
     }
 
     @Test
