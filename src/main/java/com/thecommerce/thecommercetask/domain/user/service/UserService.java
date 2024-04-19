@@ -37,8 +37,8 @@ public class UserService {
 
     public UsersDto list(int page, int size) {
         Pageable pageable = PageRequest.of(page, size,
-                Sort.by(Sort.Order.desc("createdAt"),
-                        Sort.Order.desc("fullName")));
+                Sort.by(Sort.Order.asc("createdAt"),
+                        Sort.Order.asc("fullName")));
         Page<User> users = userRepository.findAll(pageable);
 
         return UsersDto.of(users);

@@ -1,8 +1,10 @@
 package com.thecommerce.thecommercetask.domain.user.service;
 
 import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserDto;
+import com.thecommerce.thecommercetask.domain.user.dto.response.UsersDto;
 import com.thecommerce.thecommercetask.domain.user.entity.User;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicateEmailException;
+import com.thecommerce.thecommercetask.domain.user.exception.DuplicatePhoneNumberException;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicateUsernameException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,6 +63,41 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("회원 목록 조회 성공")
+    void listUser_success() {
+        JoinUserDto user1 = JoinUserDto.builder()
+                .username("testAccount1")
+                .password("test1234")
+                .nickname("testNickname")
+                .fullName("테스터")
+                .phoneNumber("010-1234-1234")
+                .email("test@naver.com")
+                .build();
+
+        userService.join(user1);
+
+        JoinUserDto user2 = JoinUserDto.builder()
+                .username("testAccount2")
+                .password("test1234")
+                .nickname("testNickname1234")
+                .fullName("테스터")
+                .phoneNumber("010-1234-7890")
+                .email("test1122@naver.com")
+                .build();
+
+        userService.join(user2);
+
+        UsersDto dto = userService.list(0, 10);
+        assertNotNull(dto);
+        assertEquals(10, dto.getPageSize());
+        assertEquals(2, dto.getTotalElements());
+
+        assertThat(dto.getData().get(0).getUsername()).isEqualTo("testAccount1");
+        assertThat(dto.getData().get(1).getUsername()).isEqualTo("testAccount2");
+        assertThat(dto.getData().size()).isEqualTo(2);
+    }
+
+    @Test
     @DisplayName("회원Id 중복으로 인한 테스트 DuplicateUsernameException 발생")
     void throwDuplicateUsernameException_success() {
         JoinUserDto user1 = JoinUserDto.builder()
@@ -114,5 +151,33 @@ class UserServiceTest {
         assertThatThrownBy(() -> userService.join(user2))
                 .isInstanceOf(DuplicateEmailException.class)
                 .hasMessageContaining("현재 존재하는 이메일 입니다.");
+    }
+
+    @Test
+    @DisplayName("이메일 중복으로 인한 테스트 DuplicatePhoneNumberException 발생")
+    void throwDuplicatePhoneNumberException_success() {
+        JoinUserDto user1 = JoinUserDto.builder()
+                .username("testAccount")
+                .password("test1234")
+                .nickname("testNickname")
+                .fullName("이부원")
+                .phoneNumber("010-1234-1234")
+                .email("test1234@naver.com")
+                .build();
+
+        userService.join(user1);
+
+        JoinUserDto user2 = JoinUserDto.builder()
+                .username("testAccount1234")
+                .password("test1234")
+                .nickname("testNickname1234")
+                .fullName("이부원")
+                .phoneNumber("010-1234-1234")
+                .email("test@naver.com")
+                .build();
+
+        assertThatThrownBy(() -> userService.join(user2))
+                .isInstanceOf(DuplicatePhoneNumberException.class)
+                .hasMessageContaining("현재 존재하는 핸드폰 번호 입니다.");
     }
 }
