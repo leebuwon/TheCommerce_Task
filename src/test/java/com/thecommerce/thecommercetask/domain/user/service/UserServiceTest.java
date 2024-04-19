@@ -39,7 +39,7 @@ class UserServiceTest {
                 .phoneNumber("010-1234-1234")
                 .email("mock@naver.com")
                 .build();
-        userService.join(user1);
+        userService.joinUser(user1);
     }
 
     @Test
@@ -54,7 +54,7 @@ class UserServiceTest {
                 .email("test@naver.com")
                 .build();
 
-        assertDoesNotThrow(() -> userService.join(dto));
+        assertDoesNotThrow(() -> userService.joinUser(dto));
 
         User user = userService.findByUsername(dto.getUsername());
         assertEquals("testAccount", user.getUsername());
@@ -76,7 +76,7 @@ class UserServiceTest {
                 .email("test@@@naver.com")
                 .build();
 
-        assertThatThrownBy(() -> userService.join(dto))
+        assertThatThrownBy(() -> userService.joinUser(dto))
                 .isInstanceOf(ConstraintViolationException.class);
     }
 
@@ -92,9 +92,9 @@ class UserServiceTest {
                 .email("test@naver.com")
                 .build();
 
-        userService.join(user1);
+        userService.joinUser(user1);
 
-        UsersDto dto = userService.list(0, 10);
+        UsersDto dto = userService.findAllUser(0, 10);
         assertNotNull(dto);
         assertEquals(10, dto.getPageSize());
         assertEquals(2, dto.getTotalElements());
@@ -116,7 +116,7 @@ class UserServiceTest {
                 .email("bw1212@naver.com")
                 .build();
 
-        userService.update(user.getUsername(), dto);
+        userService.updateUser(user.getUsername(), dto);
 
         assertThat(user.getNickname()).isEqualTo("changeNickname");
         assertThat(user.getPassword()).isEqualTo("changePassword");
@@ -144,7 +144,7 @@ class UserServiceTest {
                 .email("test1122@naver.com")
                 .build();
 
-        assertThatThrownBy(() -> userService.join(dto))
+        assertThatThrownBy(() -> userService.joinUser(dto))
                 .isInstanceOf(DuplicateUsernameException.class)
                 .hasMessageContaining("현재 존재하는 회원이름 입니다.");
     }
@@ -161,7 +161,7 @@ class UserServiceTest {
                 .email("mock@naver.com")
                 .build();
 
-        assertThatThrownBy(() -> userService.join(dto))
+        assertThatThrownBy(() -> userService.joinUser(dto))
                 .isInstanceOf(DuplicateEmailException.class)
                 .hasMessageContaining("현재 존재하는 이메일 입니다.");
     }
@@ -178,7 +178,7 @@ class UserServiceTest {
                 .email("test@naver.com")
                 .build();
 
-        assertThatThrownBy(() -> userService.join(dto))
+        assertThatThrownBy(() -> userService.joinUser(dto))
                 .isInstanceOf(DuplicatePhoneNumberException.class)
                 .hasMessageContaining("현재 존재하는 핸드폰 번호 입니다.");
     }
