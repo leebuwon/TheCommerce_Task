@@ -7,6 +7,7 @@ import com.thecommerce.thecommercetask.domain.user.entity.User;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicateEmailException;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicatePhoneNumberException;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicateUsernameException;
+import com.thecommerce.thecommercetask.domain.user.exception.NotFoundUsernameException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -121,6 +122,14 @@ class UserServiceTest {
         assertThat(user.getPassword()).isEqualTo("changePassword");
         assertThat(user.getPhoneNumber()).isEqualTo("010-1212-1212");
         assertThat(user.getEmail()).isEqualTo("bw1212@naver.com");
+    }
+
+    @Test
+    @DisplayName("회원 정보가 존재하지 않을 경우 NotFoundUsernameException 발생")
+    void noUsernameThrowsNotFoundUsernameException_success() {
+        assertThatThrownBy(() -> userService.findByUsername("testTest"))
+                .isInstanceOf(NotFoundUsernameException.class)
+                .hasMessageContaining("존재하지 않는 회원Id 입니다.");
     }
 
     @Test
