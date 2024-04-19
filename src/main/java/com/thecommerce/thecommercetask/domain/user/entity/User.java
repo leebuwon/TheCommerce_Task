@@ -8,6 +8,10 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,21 +27,34 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
+    @NotNull(message = "회원Id는 필수 값입니다.")
+    @Size(min = 3, max = 20, message = "회원Id는 최소 2자부터 20자까지 가능합니다.")
     @Column(nullable = false, unique = true)
     private String username;
 
+    @NotNull(message = "비밀번호는 필수 값입니다.")
+    @Size(min = 8, max = 30, message = "비밀번호는 최소 8자부터 30자까지 가능합니다.")
     @Column(nullable = false)
     private String password;
 
+    @NotNull(message = "닉네임은 필수 값입니다.")
+    @Size(min = 2, max = 30, message = "닉네임은 최소 2글자부터 30자까지 가능합니다.")
     @Column(nullable = false)
     private String nickname;
 
+    @NotNull(message = "이름은 필수 값입니다.")
+    @Size(min = 2, max = 10, message = "이름은 최소 2자부터 10자까지 가능합니다.")
+    @Pattern(regexp = "^[가-힣a-zA-Z]+$")
     @Column(nullable = false)
     private String fullName;
 
+    @NotNull(message = "핸드폰 번호는 필수 값입니다.")
+    @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "전화번호 패턴은 000-0000-0000 입니다.")
     @Column(nullable = false, unique = true)
     private String phoneNumber;
 
+    @NotNull(message = "이메일은 필수 값입니다.")
+    @Email(message = "이메일 형식을 지켜주시기 바랍니다.")
     @Column(nullable = false, unique = true)
     private String email;
 
