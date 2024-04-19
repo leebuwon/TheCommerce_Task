@@ -29,13 +29,13 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void join(JoinUserDto dto) {
+    public void joinUser(JoinUserDto dto) {
         checkDuplicateUsername(dto.getUsername());
         checkDuplicateEmailAndPhoneNumber(dto.getEmail(), dto.getPhoneNumber());
         userRepository.save(dto.toEntity(dto));
     }
 
-    public UsersDto list(int page, int size) {
+    public UsersDto findAllUser(int page, int size) {
         Pageable pageable = PageRequest.of(page, size,
                 Sort.by(Sort.Order.asc("createdAt"),
                         Sort.Order.asc("fullName")));
@@ -45,7 +45,7 @@ public class UserService {
     }
 
     @Transactional
-    public void update(String username, UpdateUserDto dto) {
+    public void updateUser(String username, UpdateUserDto dto) {
         checkDuplicateEmailAndPhoneNumber(dto.getEmail(), dto.getPhoneNumber());
         User user = findByUsername(username);
         user.updateUser(dto.getPassword(), dto.getNickname(), dto.getPhoneNumber(), dto.getEmail());

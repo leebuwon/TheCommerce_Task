@@ -22,23 +22,23 @@ public class UserController implements ApiUserController {
     private final UserService userService;
 
     @PostMapping("/join")
-    public ResponseEntity<Void> join(@Valid @RequestBody JoinUserDto dto) {
-        userService.join(dto);
+    public ResponseEntity<Void> joinUser(@Valid @RequestBody JoinUserDto dto) {
+        userService.joinUser(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/list")
-    public ResponseEntity<UsersDto> list(@RequestParam(name = "page", defaultValue = "0") int page,
-                                         @RequestParam(name = "size", defaultValue = "10") int size){
+    public ResponseEntity<UsersDto> findAllUser(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                @RequestParam(name = "size", defaultValue = "10") int size){
 
-        UsersDto dto = userService.list(page, size);
+        UsersDto dto = userService.findAllUser(page, size);
         return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
     @PatchMapping("/{username}")
-    public ResponseEntity<Void> update(@PathVariable("username") String username,
-                                       @Valid @RequestBody UpdateUserDto dto){
-        userService.update(username, dto);
+    public ResponseEntity<Void> updateUser(@PathVariable("username") String username,
+                                           @Valid @RequestBody UpdateUserDto dto){
+        userService.updateUser(username, dto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
