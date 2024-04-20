@@ -2,7 +2,8 @@ package com.thecommerce.thecommercetask.domain.user.controller;
 
 import com.thecommerce.thecommercetask.domain.user.controller.api.ApiUserController;
 import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserDto;
-import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserDto;
+import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserReqDto;
+import com.thecommerce.thecommercetask.domain.user.dto.response.UpdateUserResDto;
 import com.thecommerce.thecommercetask.domain.user.dto.response.UsersDto;
 import com.thecommerce.thecommercetask.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -36,9 +37,9 @@ public class UserController implements ApiUserController {
     }
 
     @PatchMapping("/{username}")
-    public ResponseEntity<Void> updateUser(@PathVariable("username") String username,
-                                           @Valid @RequestBody UpdateUserDto dto){
-        userService.updateUser(username, dto);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<UpdateUserResDto> updateUser(@PathVariable("username") String username,
+                                                       @Valid @RequestBody UpdateUserReqDto dto){
+        UpdateUserResDto resDto = userService.updateUser(username, dto);
+        return ResponseEntity.status(HttpStatus.OK).body(resDto);
     }
 }

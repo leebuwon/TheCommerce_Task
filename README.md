@@ -12,7 +12,7 @@ The Commerce 기업 과제
   - url : /api/user/list
   - GET
 - [x] 회원 수정
-  - response status : 204 noContent
+  - response status : 200 ok
   - url : /api/user/{로그인아이디}
   - PATCH
 - [x] 예외 처리

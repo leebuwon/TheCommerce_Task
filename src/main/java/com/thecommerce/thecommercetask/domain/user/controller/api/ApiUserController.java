@@ -1,7 +1,8 @@
 package com.thecommerce.thecommercetask.domain.user.controller.api;
 
 import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserDto;
-import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserDto;
+import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserReqDto;
+import com.thecommerce.thecommercetask.domain.user.dto.response.UpdateUserResDto;
 import com.thecommerce.thecommercetask.domain.user.dto.response.UsersDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,5 +18,5 @@ public interface ApiUserController {
     ResponseEntity<UsersDto> findAllUser(int page, int size);
 
     @Operation(summary = "회원 정보 수정")
-    ResponseEntity<Void> updateUser(String username, UpdateUserDto dto);
+    ResponseEntity<UpdateUserResDto> updateUser(String username, UpdateUserReqDto dto);
 }

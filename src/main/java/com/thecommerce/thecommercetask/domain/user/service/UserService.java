@@ -1,7 +1,8 @@
 package com.thecommerce.thecommercetask.domain.user.service;
 
 import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserDto;
-import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserDto;
+import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserReqDto;
+import com.thecommerce.thecommercetask.domain.user.dto.response.UpdateUserResDto;
 import com.thecommerce.thecommercetask.domain.user.dto.response.UsersDto;
 import com.thecommerce.thecommercetask.domain.user.entity.User;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicateEmailException;
@@ -45,10 +46,11 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUser(String username, UpdateUserDto dto) {
+    public UpdateUserResDto updateUser(String username, UpdateUserReqDto dto) {
         User user = findByUsername(username);
         checkDuplicateEmailAndPhoneNumber(dto.getEmail(), dto.getPhoneNumber());
         user.updateUser(dto.getPassword(), dto.getNickname(), dto.getPhoneNumber(), dto.getEmail());
+        return UpdateUserResDto.of(user);
     }
 
     public User findByUsername(String username) {

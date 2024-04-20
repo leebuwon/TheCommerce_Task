@@ -1,7 +1,7 @@
 package com.thecommerce.thecommercetask.domain.user.service;
 
 import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserDto;
-import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserDto;
+import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserReqDto;
 import com.thecommerce.thecommercetask.domain.user.dto.response.UsersDto;
 import com.thecommerce.thecommercetask.domain.user.entity.User;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicateEmailException;
@@ -109,7 +109,7 @@ class UserServiceTest {
     void updateUser_success() {
         User user = userService.findByUsername(user1.getUsername());
 
-        UpdateUserDto dto = UpdateUserDto.builder()
+        UpdateUserReqDto dto = UpdateUserReqDto.builder()
                 .nickname("changeNickname")
                 .password("changePassword")
                 .phoneNumber("010-1212-1212")
