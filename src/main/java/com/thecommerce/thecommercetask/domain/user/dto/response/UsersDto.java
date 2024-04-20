@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class UsersDto {
 
     private int totalPage;
-    private int page;
+    private int currentPage;
     private int pageSize;
     private long totalElements;
     private boolean isLast;
@@ -30,7 +30,7 @@ public class UsersDto {
 
         return UsersDto.builder()
                 .totalPage(users.getTotalPages())
-                .page(users.getNumber())
+                .currentPage(users.getNumber())
                 .pageSize(users.getSize())
                 .totalElements(users.getTotalElements())
                 .isLast(users.isLast())
