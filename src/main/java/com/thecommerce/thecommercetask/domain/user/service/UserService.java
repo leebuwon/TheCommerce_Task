@@ -1,8 +1,10 @@
 package com.thecommerce.thecommercetask.domain.user.service;
 
-import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserDto;
-import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserDto;
-import com.thecommerce.thecommercetask.domain.user.dto.response.UsersDto;
+import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserReqDto;
+import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserReqDto;
+import com.thecommerce.thecommercetask.domain.user.dto.response.UpdateSuccessResDto;
+import com.thecommerce.thecommercetask.domain.user.dto.response.UpdateUserResDto;
+import com.thecommerce.thecommercetask.domain.user.dto.response.UsersResDto;
 import com.thecommerce.thecommercetask.domain.user.entity.User;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicateEmailException;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicatePhoneNumberException;
@@ -29,26 +31,28 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void joinUser(JoinUserDto dto) {
+    public void joinUser(JoinUserReqDto dto) {
         checkDuplicateUsername(dto.getUsername());
         checkDuplicateEmailAndPhoneNumber(dto.getEmail(), dto.getPhoneNumber());
         userRepository.save(dto.toEntity(dto));
     }
 
-    public UsersDto findAllUser(int page, int size) {
+    public UsersResDto findAllUser(int page, int size) {
         Pageable pageable = PageRequest.of(page, size,
                 Sort.by(Sort.Order.asc("createdAt"),
                         Sort.Order.asc("fullName")));
         Page<User> users = userRepository.findAll(pageable);
 
-        return UsersDto.of(users);
+        return UsersResDto.of(users);
     }
 
     @Transactional
-    public void updateUser(String username, UpdateUserDto dto) {
+    public UpdateSuccessResDto updateUser(String username, UpdateUserReqDto dto) {
         User user = findByUsername(username);
         checkDuplicateEmailAndPhoneNumber(dto.getEmail(), dto.getPhoneNumber());
         user.updateUser(dto.getPassword(), dto.getNickname(), dto.getPhoneNumber(), dto.getEmail());
+        UpdateUserResDto updateResDto = UpdateUserResDto.of(user);
+        return UpdateSuccessResDto.of(updateResDto);
     }
 
     public User findByUsername(String username) {

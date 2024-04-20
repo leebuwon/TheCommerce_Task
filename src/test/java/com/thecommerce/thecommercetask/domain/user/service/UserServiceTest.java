@@ -1,8 +1,8 @@
 package com.thecommerce.thecommercetask.domain.user.service;
 
-import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserDto;
-import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserDto;
-import com.thecommerce.thecommercetask.domain.user.dto.response.UsersDto;
+import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserReqDto;
+import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserReqDto;
+import com.thecommerce.thecommercetask.domain.user.dto.response.UsersResDto;
 import com.thecommerce.thecommercetask.domain.user.entity.User;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicateEmailException;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicatePhoneNumberException;
@@ -27,11 +27,11 @@ class UserServiceTest {
     @Autowired
     private UserService userService;
 
-    JoinUserDto user1;
+    JoinUserReqDto user1;
 
     @BeforeEach
     void setUp() {
-        user1 = JoinUserDto.builder()
+        user1 = JoinUserReqDto.builder()
                 .username("mockUser")
                 .password("test1234")
                 .nickname("mockNickname")
@@ -45,7 +45,7 @@ class UserServiceTest {
     @Test
     @DisplayName("회원 가입 성공")
     void joinUser_success() {
-        JoinUserDto dto = JoinUserDto.builder()
+        JoinUserReqDto dto = JoinUserReqDto.builder()
                 .username("testAccount")
                 .password("test1234")
                 .nickname("testNickname")
@@ -67,7 +67,7 @@ class UserServiceTest {
     @Test
     @DisplayName("회원 가입 실패 - 유효하지 않은 데이터")
     void joinUser_fail() {
-        JoinUserDto dto = JoinUserDto.builder()
+        JoinUserReqDto dto = JoinUserReqDto.builder()
                 .username("te")
                 .password("1234")
                 .nickname("n")
@@ -83,7 +83,7 @@ class UserServiceTest {
     @Test
     @DisplayName("회원 목록 조회 성공")
     void listUser_success() {
-        JoinUserDto user1 = JoinUserDto.builder()
+        JoinUserReqDto user1 = JoinUserReqDto.builder()
                 .username("testAccount")
                 .password("test1234")
                 .nickname("testNickname")
@@ -94,7 +94,7 @@ class UserServiceTest {
 
         userService.joinUser(user1);
 
-        UsersDto dto = userService.findAllUser(0, 10);
+        UsersResDto dto = userService.findAllUser(0, 10);
         assertNotNull(dto);
         assertEquals(10, dto.getPageSize());
         assertEquals(2, dto.getTotalElements());
@@ -109,7 +109,7 @@ class UserServiceTest {
     void updateUser_success() {
         User user = userService.findByUsername(user1.getUsername());
 
-        UpdateUserDto dto = UpdateUserDto.builder()
+        UpdateUserReqDto dto = UpdateUserReqDto.builder()
                 .nickname("changeNickname")
                 .password("changePassword")
                 .phoneNumber("010-1212-1212")
@@ -135,7 +135,7 @@ class UserServiceTest {
     @Test
     @DisplayName("회원Id 중복으로 인한 테스트 DuplicateUsernameException 발생")
     void throwDuplicateUsernameException_success() {
-        JoinUserDto dto = JoinUserDto.builder()
+        JoinUserReqDto dto = JoinUserReqDto.builder()
                 .username("mockUser")
                 .password("test1234")
                 .nickname("testNickname1234")
@@ -152,7 +152,7 @@ class UserServiceTest {
     @Test
     @DisplayName("이메일 중복으로 인한 테스트 DuplicateEmailException 발생")
     void throwDuplicateEmailException_success() {
-        JoinUserDto dto = JoinUserDto.builder()
+        JoinUserReqDto dto = JoinUserReqDto.builder()
                 .username("testAccount1234")
                 .password("test1234")
                 .nickname("testNickname1234")
@@ -169,7 +169,7 @@ class UserServiceTest {
     @Test
     @DisplayName("이메일 중복으로 인한 테스트 DuplicatePhoneNumberException 발생")
     void throwDuplicatePhoneNumberException_success() {
-        JoinUserDto dto = JoinUserDto.builder()
+        JoinUserReqDto dto = JoinUserReqDto.builder()
                 .username("testAccount1234")
                 .password("test1234")
                 .nickname("testNickname1234")

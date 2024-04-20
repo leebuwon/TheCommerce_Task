@@ -2,7 +2,6 @@ package com.thecommerce.thecommercetask.domain.user.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.thecommerce.thecommercetask.domain.user.entity.User;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +16,7 @@ import javax.validation.constraints.Size;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class JoinUserDto {
+public class JoinUserReqDto {
 
     @NotNull(message = "회원Id는 필수 값입니다.")
     @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "아이디는 영문과 숫자 조합으로만 가능합니다.")
@@ -48,7 +47,7 @@ public class JoinUserDto {
     private String email;
 
     // dto -> entity
-    public User toEntity(JoinUserDto dto){
+    public User toEntity(JoinUserReqDto dto){
         return User.builder()
                 .username(dto.getUsername())
                 .password(dto.getPassword())

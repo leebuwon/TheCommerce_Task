@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateUserDto {
+public class UpdateUserReqDto {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Size(min = 8, max = 30, message = "비밀번호는 최소 8자부터 30자까지 가능합니다.")

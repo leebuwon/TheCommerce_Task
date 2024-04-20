@@ -14,27 +14,27 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsersDto {
+public class UsersResDto {
 
     private int totalPage;
     private int currentPage;
     private int pageSize;
     private long totalElements;
     private boolean isLast;
-    private List<UserDetailDto> data;
+    private List<UserDetailResDto> data;
 
-    public static UsersDto of(Page<User> users) {
-        List<UserDetailDto> userDetailDto = users.stream()
-                .map(UserDetailDto::of)
+    public static UsersResDto of(Page<User> users) {
+        List<UserDetailResDto> userDetailResDto = users.stream()
+                .map(UserDetailResDto::of)
                 .collect(Collectors.toList());
 
-        return UsersDto.builder()
+        return UsersResDto.builder()
                 .totalPage(users.getTotalPages())
                 .currentPage(users.getNumber())
                 .pageSize(users.getSize())
                 .totalElements(users.getTotalElements())
                 .isLast(users.isLast())
-                .data(userDetailDto)
+                .data(userDetailResDto)
                 .build();
     }
 }

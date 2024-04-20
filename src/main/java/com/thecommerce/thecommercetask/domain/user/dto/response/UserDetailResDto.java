@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDetailDto {
+public class UserDetailResDto {
 
     private String username;
     private String nickname;
@@ -21,8 +21,8 @@ public class UserDetailDto {
     private String email;
     private LocalDateTime createAt;
 
-    public static UserDetailDto of(User user){
-        return UserDetailDto.builder()
+    public static UserDetailResDto of(User user){
+        return UserDetailResDto.builder()
                 .username(user.getUsername())
                 .nickname(user.getNickname())
                 .fullName(user.getFullName())
