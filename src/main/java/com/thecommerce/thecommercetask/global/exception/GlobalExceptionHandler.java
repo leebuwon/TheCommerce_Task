@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> globalException(GlobalException ex) {
         GlobalError error = ex.getError();
 
-        log.error("{}", error);
+        log.error("message = {} | errorType = {}", error.getMessage(), error.getCode().getType().name());
 
         ErrorResponse response = ErrorResponse.builder()
                 .code(error.getCode().getCode())

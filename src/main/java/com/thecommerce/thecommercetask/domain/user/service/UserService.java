@@ -46,8 +46,8 @@ public class UserService {
 
     @Transactional
     public void updateUser(String username, UpdateUserDto dto) {
-        checkDuplicateEmailAndPhoneNumber(dto.getEmail(), dto.getPhoneNumber());
         User user = findByUsername(username);
+        checkDuplicateEmailAndPhoneNumber(dto.getEmail(), dto.getPhoneNumber());
         user.updateUser(dto.getPassword(), dto.getNickname(), dto.getPhoneNumber(), dto.getEmail());
     }
 
