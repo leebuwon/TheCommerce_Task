@@ -21,7 +21,7 @@ public class JoinUserDto {
 
     @NotNull(message = "회원Id는 필수 값입니다.")
     @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "아이디는 영문과 숫자 조합으로만 가능합니다.")
-    @Size(min = 3, max = 15, message = "회원Id는 최소 2자부터 15자까지 가능합니다.")
+    @Size(min = 3, max = 15, message = "회원Id는 최소 3자부터 15자까지 가능합니다.")
     private String username;
 
     @NotNull(message = "비밀번호는 필수 값입니다.")
