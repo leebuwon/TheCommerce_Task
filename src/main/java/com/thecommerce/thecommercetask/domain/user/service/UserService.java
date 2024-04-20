@@ -29,6 +29,10 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    /**
+     * User 회원 가입
+     * @param dto (username, password, nickname, fullName, phoneNumber, email)
+     */
     @Transactional
     public void joinUser(JoinUserReqDto dto) {
         checkDuplicateUsername(dto.getUsername());
@@ -36,6 +40,11 @@ public class UserService {
         userRepository.save(dto.toEntity(dto));
     }
 
+    /**
+     * 회원 목록 조회
+     * @param page : page 시작 번호
+     * @param size : 페이지당 elements 갯수
+     */
     public UsersResDto findAllUser(int page, int size) {
         Pageable pageable = PageRequest.of(page, size,
                 Sort.by(Sort.Order.asc("createdAt"),
@@ -45,6 +54,11 @@ public class UserService {
         return UsersResDto.of(users);
     }
 
+    /**
+     * 회원 정보 수정
+     * @param username : 회원Id
+     * @param dto (password, nickname, phoneNumber, email)
+     */
     @Transactional
     public UpdateSuccessResDto updateUser(String username, UpdateUserReqDto dto) {
         User user = findByUsername(username);
