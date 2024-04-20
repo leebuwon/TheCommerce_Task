@@ -20,7 +20,8 @@ public class UpdateUserDto {
     @Size(min = 8, max = 30, message = "비밀번호는 최소 8자부터 30자까지 가능합니다.")
     private String password;
 
-    @Size(min = 2, max = 30, message = "닉네임은 최소 2글자부터 30자까지 가능합니다.")
+    @Pattern(regexp = "^[가-힣a-zA-Z0-9]+$", message = "닉네임은 한글, 영문, 숫자 조합으로만 가능합니다.")
+    @Size(min = 2, max = 20, message = "닉네임은 최소 2글자부터 20자까지 가능합니다.")
     private String nickname;
 
     @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "전화번호 패턴은 000-0000-0000 입니다.")

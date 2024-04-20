@@ -28,7 +28,8 @@ public class User {
     private Long id;
 
     @NotNull(message = "회원Id는 필수 값입니다.")
-    @Size(min = 3, max = 20, message = "회원Id는 최소 2자부터 20자까지 가능합니다.")
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "아이디는 영문과 숫자 조합으로만 가능합니다.")
+    @Size(min = 3, max = 15, message = "회원Id는 최소 2자부터 15자까지 가능합니다.")
     @Column(nullable = false, unique = true)
     private String username;
 
@@ -38,13 +39,14 @@ public class User {
     private String password;
 
     @NotNull(message = "닉네임은 필수 값입니다.")
-    @Size(min = 2, max = 30, message = "닉네임은 최소 2글자부터 30자까지 가능합니다.")
+    @Pattern(regexp = "^[가-힣a-zA-Z0-9]+$", message = "닉네임은 한글, 영문, 숫자 조합으로만 가능합니다.")
+    @Size(min = 2, max = 20, message = "닉네임은 최소 2글자부터 20자까지 가능합니다.")
     @Column(nullable = false)
     private String nickname;
 
     @NotNull(message = "이름은 필수 값입니다.")
     @Size(min = 2, max = 10, message = "이름은 최소 2자부터 10자까지 가능합니다.")
-    @Pattern(regexp = "^[가-힣a-zA-Z]+$")
+    @Pattern(regexp = "^[가-힣]+$", message = "이름은 한글만 가능합니다.")
     @Column(nullable = false)
     private String fullName;
 
