@@ -3,7 +3,6 @@ package com.thecommerce.thecommercetask.domain.user.service;
 import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserReqDto;
 import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserReqDto;
 import com.thecommerce.thecommercetask.domain.user.dto.response.UpdateSuccessResDto;
-import com.thecommerce.thecommercetask.domain.user.dto.response.UpdateUserResDto;
 import com.thecommerce.thecommercetask.domain.user.dto.response.UsersResDto;
 import com.thecommerce.thecommercetask.domain.user.entity.User;
 import com.thecommerce.thecommercetask.domain.user.exception.DuplicateEmailException;
@@ -30,6 +29,10 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    /**
+     * User 회원 가입
+     * @param dto (username, password, nickname, fullName, phoneNumber, email)
+     */
     @Transactional
     public void joinUser(JoinUserReqDto dto) {
         checkDuplicateUsername(dto.getUsername());
@@ -37,6 +40,11 @@ public class UserService {
         userRepository.save(dto.toEntity(dto));
     }
 
+    /**
+     * 회원 목록 조회
+     * @param page : page 시작 번호
+     * @param size : 페이지당 elements 갯수
+     */
     public UsersResDto findAllUser(int page, int size) {
         Pageable pageable = PageRequest.of(page, size,
                 Sort.by(Sort.Order.asc("createdAt"),
@@ -46,13 +54,17 @@ public class UserService {
         return UsersResDto.of(users);
     }
 
+    /**
+     * 회원 정보 수정
+     * @param username : 회원Id
+     * @param dto (password, nickname, phoneNumber, email)
+     */
     @Transactional
     public UpdateSuccessResDto updateUser(String username, UpdateUserReqDto dto) {
         User user = findByUsername(username);
         checkDuplicateEmailAndPhoneNumber(dto.getEmail(), dto.getPhoneNumber());
         user.updateUser(dto.getPassword(), dto.getNickname(), dto.getPhoneNumber(), dto.getEmail());
-        UpdateUserResDto updateResDto = UpdateUserResDto.of(user);
-        return UpdateSuccessResDto.of(updateResDto);
+        return UpdateSuccessResDto.of(user);
     }
 
     public User findByUsername(String username) {
