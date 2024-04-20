@@ -3,6 +3,7 @@ package com.thecommerce.thecommercetask.domain.user.controller;
 import com.thecommerce.thecommercetask.domain.user.controller.api.ApiUserController;
 import com.thecommerce.thecommercetask.domain.user.dto.request.JoinUserReqDto;
 import com.thecommerce.thecommercetask.domain.user.dto.request.UpdateUserReqDto;
+import com.thecommerce.thecommercetask.domain.user.dto.response.UpdateSuccessResDto;
 import com.thecommerce.thecommercetask.domain.user.dto.response.UpdateUserResDto;
 import com.thecommerce.thecommercetask.domain.user.dto.response.UsersResDto;
 import com.thecommerce.thecommercetask.domain.user.service.UserService;
@@ -37,9 +38,9 @@ public class UserController implements ApiUserController {
     }
 
     @PatchMapping("/{username}")
-    public ResponseEntity<UpdateUserResDto> updateUser(@PathVariable("username") String username,
-                                                       @Valid @RequestBody UpdateUserReqDto dto){
-        UpdateUserResDto resDto = userService.updateUser(username, dto);
+    public ResponseEntity<UpdateSuccessResDto> updateUser(@PathVariable("username") String username,
+                                                          @Valid @RequestBody UpdateUserReqDto dto){
+        UpdateSuccessResDto resDto = userService.updateUser(username, dto);
         return ResponseEntity.status(HttpStatus.OK).body(resDto);
     }
 }
