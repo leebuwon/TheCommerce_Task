@@ -12,7 +12,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -35,6 +38,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(500).body(response);
     }
 
+    /**
+     * custom 예외
+     */
     @ExceptionHandler(GlobalException.class)
     public ResponseEntity<ErrorResponse> globalException(GlobalException ex) {
         GlobalError error = ex.getError();
@@ -50,6 +56,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(error.getCode().getCode()).body(response);
     }
 
+    /**
+     * dto 단계에서 validation 처리
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
@@ -69,6 +78,28 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(BAD_REQUEST).body(response);
     }
 
+    /**
+     * entity 단계에서 validation 처리
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException ex){
+        String errorMessage = ex.getConstraintViolations()
+                .stream()
+                .map(ConstraintViolation::getMessage)
+                .collect(Collectors.joining(", "));
+
+        ErrorResponse response = ErrorResponse.builder()
+                .code(BAD_REQUEST.value())
+                .codeString(BAD_REQUEST.name())
+                .message(errorMessage)
+                .build();
+
+        return ResponseEntity.status(BAD_REQUEST).body(response);
+    }
+
+    /**
+     * entity 단게에서 중복 체크
+     */
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleValidationExceptions(DataIntegrityViolationException ex) {
         ErrorResponse response = ErrorResponse.builder()
