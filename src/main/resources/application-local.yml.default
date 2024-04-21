@@ -1,6 +1,6 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/{theCommerce}?serverTimezone=Asia/Seoul
-    username: {root}
-    password: {password}
+    url: jdbc:mysql://localhost:3306/{theCommerce}?serverTimezone=Asia/Seoul # 포트번호와 데이터베이스 이름
+    username: {root} # DB 아이디
+    password: {password} # DB 비밀번호
