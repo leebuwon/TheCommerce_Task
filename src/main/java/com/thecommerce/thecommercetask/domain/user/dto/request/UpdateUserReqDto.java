@@ -24,7 +24,7 @@ public class UpdateUserReqDto {
     @Size(min = 2, max = 20, message = "닉네임은 최소 2글자부터 20자까지 가능합니다.")
     private String nickname;
 
-    @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "전화번호 패턴은 000-0000-0000 입니다.")
+    @Pattern(regexp = "^\\d{3}-\\d{4}-\\d{4}$", message = "전화번호 패턴은 000-0000-0000 입니다.")
     private String phoneNumber;
 
     @Email(message = "이메일 형식을 지켜주시기 바랍니다.")
